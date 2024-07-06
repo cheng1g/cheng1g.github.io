@@ -193,7 +193,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"Hello World","path":"2024/07/05/hello-world/"},{"title":"sql注入","path":"2022/11/07/sql/"}]`)
+  const posts = JSON.parse(`[{"title":"Hello World","path":"2024/07/05/hello-world/"},{"title":"post_name","path":"2024/07/06/post-name/"},{"title":"sql注入","path":"2022/11/07/sql/"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -327,7 +327,7 @@
       </h5>
       <p class="main-left--subtitle">
         <span>文章数目：</span>
-        <span>2 篇</span>
+        <span>3 篇</span>
       </p>
       <p class="main-left--subtitle">
         <span>最近动态：</span>
@@ -381,6 +381,10 @@
 <p>抓包后右键，选中repeater</p>
 <p>输入后点send，观察respose</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526214008294.png" alt="image-20240526214008294"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img 1.png This is an image %&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <p>要用+连接，表示空格不能用空格，或者是用%20来表示</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526214108870.png" alt="image-20240526214108870"></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526214219422.png" alt="image-20240526214219422"></p>
